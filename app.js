@@ -19,6 +19,10 @@ const els = {
   signOut: document.getElementById("signOut"),
   authStatus: document.getElementById("authStatus"),
 
+  signInSection: document.getElementById("signInSection"),
+  appSection: document.getElementById("appSection"),
+  entriesSection: document.getElementById("entriesSection"),
+
   entryForm: document.getElementById("entryForm"),
   saveMsg: document.getElementById("saveMsg"),
 
@@ -49,26 +53,24 @@ function setStatus(msg) {
 }
 
 function setAuthedUI(isAuthed) {
+  // Toggle visibility
+  els.signInSection.classList.toggle("hidden", isAuthed);   // hide sign-in when authed
+  els.appSection.classList.toggle("hidden", !isAuthed);     // show app when authed
+  els.entriesSection.classList.toggle("hidden", !isAuthed); // show entries when authed
+
+  // Sign out button
   els.signOut.disabled = !isAuthed;
 
-  // Entry form enable/disable
-  els.entryForm.querySelectorAll("input,select,textarea,button").forEach((el) => (el.disabled = !isAuthed));
-
-  // List controls
-  els.refresh.disabled = !isAuthed;
-  els.q.disabled = !isAuthed;
-  els.filterCategory.disabled = !isAuthed;
-  els.minRating.disabled = !isAuthed;
-
   if (!isAuthed) {
-    els.entries.innerHTML = `<div class="muted">Sign in to view entries.</div>`;
+    els.entries.innerHTML = ""; // no list visible anyway, but keeps state clean
+    els.saveMsg.textContent = "";
   }
 }
 
 async function init() {
   // Default date
   els.entryForm.elements.drank_on.value = todayISO();
-
+  
   // Initial auth session
   const { data: { session }, error } = await client.auth.getSession();
   if (error) setStatus(`Auth session error: ${error.message}`);

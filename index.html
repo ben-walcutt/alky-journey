@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Alcohol Journal</title>
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* small helper so we don’t depend on editing styles.css */
+    .hidden { display: none !important; }
+  </style>
 </head>
 <body>
   <header class="wrap header">
@@ -20,7 +24,9 @@
   </header>
 
   <main class="wrap grid">
-    <section class="card">
+
+    <!-- 1) SIGN IN: only visible when NOT logged in -->
+    <section id="signInSection" class="card">
       <h2>Sign in</h2>
 
       <div class="form">
@@ -41,7 +47,8 @@
       </div>
     </section>
 
-    <section class="card">
+    <!-- 2) SAVE ENTRY: only visible when logged in -->
+    <section id="appSection" class="card hidden">
       <h2>Add entry</h2>
 
       <form id="entryForm" class="form">
@@ -101,15 +108,16 @@
       </form>
     </section>
 
-    <section class="card full">
+    <!-- 3) ENTRIES LIST: only visible when logged in -->
+    <section id="entriesSection" class="card full hidden">
       <div class="row space">
         <h2>Entries</h2>
-        <button id="refresh" class="secondary" disabled>Refresh</button>
+        <button id="refresh" class="secondary">Refresh</button>
       </div>
 
       <div class="row">
-        <input id="q" placeholder="Search name/notes/location..." disabled />
-        <select id="filterCategory" disabled>
+        <input id="q" placeholder="Search name/notes/location..." />
+        <select id="filterCategory">
           <option value="">All categories</option>
           <option value="cocktail">cocktail</option>
           <option value="beer">beer</option>
@@ -117,7 +125,7 @@
           <option value="spirit">spirit</option>
           <option value="other">other</option>
         </select>
-        <select id="minRating" disabled>
+        <select id="minRating">
           <option value="">Min rating</option>
           <option value="6">6+</option>
           <option value="7">7+</option>
@@ -128,9 +136,9 @@
 
       <div id="entries" style="margin-top:10px;"></div>
     </section>
+
   </main>
 
-  <!-- Supabase JS (UMD build) -->
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   <script src="app.js"></script>
 </body>

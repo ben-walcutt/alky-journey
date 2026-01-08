@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Alcohol Journal</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="wrap header">
+    <div>
+      <h1>Alcohol Journal</h1>
+      <div class="muted">Supabase Auth + Postgres (RLS) • Hosted on GitHub Pages</div>
+    </div>
+
+    <div class="authBox">
+      <div id="authStatus" class="muted"></div>
+      <button id="signOut" class="secondary" disabled>Sign out</button>
+    </div>
+  </header>
+
+  <main class="wrap grid">
+    <section class="card">
+      <h2>Sign in</h2>
+
+      <div class="form">
+        <label>Email</label>
+        <input id="email" type="email" placeholder="you@example.com" autocomplete="email" />
+
+        <label>Password</label>
+        <input id="password" type="password" placeholder="••••••••" autocomplete="current-password" />
+
+        <div class="row">
+          <button id="signUp">Sign up</button>
+          <button id="signIn">Sign in</button>
+        </div>
+
+        <div class="muted" style="margin-top:10px;">
+          Tip: Use a strong password. This app stores data per-user via Supabase RLS.
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Add entry</h2>
+
+      <form id="entryForm" class="form">
+        <div class="row">
+          <div>
+            <label>Date</label>
+            <input name="drank_on" type="date" required />
+          </div>
+          <div>
+            <label>Category</label>
+            <select name="category" required>
+              <option value="cocktail">cocktail</option>
+              <option value="beer">beer</option>
+              <option value="wine">wine</option>
+              <option value="spirit">spirit</option>
+              <option value="other">other</option>
+            </select>
+          </div>
+        </div>
+
+        <label>Name</label>
+        <input name="name" placeholder="Old Fashioned / Guinness / Malbec" required />
+
+        <div class="row">
+          <div>
+            <label>Base spirit (optional)</label>
+            <input name="base_spirit" placeholder="bourbon, gin, tequila..." />
+          </div>
+          <div>
+            <label>Rating (1–10)</label>
+            <input name="rating" type="number" min="1" max="10" required />
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>ABV % (optional)</label>
+            <input name="abv" type="number" step="0.1" min="0" max="100" />
+          </div>
+          <div>
+            <label>Ounces (optional)</label>
+            <input name="ounces" type="number" step="0.1" min="0" />
+          </div>
+        </div>
+
+        <label>Location (optional)</label>
+        <input name="location" placeholder="Home / a bar name" />
+
+        <label>Photo URL (optional)</label>
+        <input name="photo_url" placeholder="https://..." />
+
+        <label>Notes (optional)</label>
+        <textarea name="notes" rows="4" placeholder="Tasting notes..."></textarea>
+
+        <button id="addEntry" type="submit">Save entry</button>
+        <div id="saveMsg" class="muted"></div>
+      </form>
+    </section>
+
+    <section class="card full">
+      <div class="row space">
+        <h2>Entries</h2>
+        <button id="refresh" class="secondary" disabled>Refresh</button>
+      </div>
+
+      <div class="row">
+        <input id="q" placeholder="Search name/notes/location..." disabled />
+        <select id="filterCategory" disabled>
+          <option value="">All categories</option>
+          <option value="cocktail">cocktail</option>
+          <option value="beer">beer</option>
+          <option value="wine">wine</option>
+          <option value="spirit">spirit</option>
+          <option value="other">other</option>
+        </select>
+        <select id="minRating" disabled>
+          <option value="">Min rating</option>
+          <option value="6">6+</option>
+          <option value="7">7+</option>
+          <option value="8">8+</option>
+          <option value="9">9+</option>
+        </select>
+      </div>
+
+      <div id="entries" style="margin-top:10px;"></div>
+    </section>
+  </main>
+
+  <!-- Supabase JS (UMD build) -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="app.js"></script>
+</body>
+</html>
